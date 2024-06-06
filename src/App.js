@@ -1,24 +1,46 @@
-import logo from './logo.svg';
 import './App.css';
+import './Style.css';
+import Hero from './Pages/Hero';
+import Navbar from './Pages/Navbar';
+import Browse from './Pages/Browse';
+import Rent from './Pages/Rent';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'; // Import Switch separately
+import HotelPage from './Pages/HotelPage';
+import { useState } from 'react';
+import Login from './Pages/Login';
 
 function App() {
+  
+  const [showLogin, setShowLogin] = useState(false);
+
+  const toggleLoginPopup = () => {
+    setShowLogin(!showLogin);
+    console.log(showLogin)
+  };
+
   return (
+    
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+
+      <Router>
+          <Navbar toggleLoginPopup={toggleLoginPopup}></Navbar>
+
+          <Hero></Hero>
+
+          <Routes>
+            <Route path="/" element={<Browse />} />
+            <Route path="/hotel/:hotelId" element={<HotelPage />} />
+          </Routes>
+
+          <Rent></Rent>
+          {showLogin && <Login toggleLoginPopup={toggleLoginPopup} />}
+
+      </Router>
+
     </div>
+
+
+
   );
 }
 
